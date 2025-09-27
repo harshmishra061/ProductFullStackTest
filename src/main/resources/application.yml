@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/products_db
+    username: postgres
+    password: postgres
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+  thymeleaf:
+    check-template-location: false
+
+server:
+  port: 8080

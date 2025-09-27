@@ -1,0 +1,14 @@
+<!-- products.html -->
+<div th:fragment="productsContent">
+    <h1 class="text-2xl font-bold mb-4">All Products</h1>
+
+    <div id="products-list">
+        <ul>
+            <li th:each="product : ${products}">
+                <h2 th:text="${product.title}">Product Title</h2>
+                <p th:utext="${product.description}"></p>
+                <p>Price: $<span th:text="${product.price}">0.00</span></p>
+            </li>
+        </ul>
+    </div>
+</div>
