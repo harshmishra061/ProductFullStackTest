@@ -8,6 +8,7 @@ spring:
     locations: classpath:db/migration
   thymeleaf:
     check-template-location: false
-
 server:
   port: 8080
+
+

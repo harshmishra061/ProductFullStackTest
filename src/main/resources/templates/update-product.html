@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 { font-size: 24px; margin-bottom: 20px; color: #333; text-align: center; }
+        form { display: flex; flex-direction: column; }
+        label { margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .buttons button,
+        .buttons a {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .buttons a {
+            background-color: #ccc;
+            color: #333;
+            text-align: center;
+        }
+        .buttons a:hover { background-color: #b3b3b3; }
+        .buttons button {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .buttons button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<section>
+    <h1>Update Product</h1>
+    <form id="update-product-form">
+        <label for="title">Product Name</label>
+        <input type="text" id="title" name="title" th:value="${product.title}" required>
+
+        <label for="vendor">Vendor</label>
+        <input type="text" id="vendor" name="vendor" th:value="${product.vendor}" required>
+
+        <div class="buttons">
+            <a href="/products/home">Cancel</a>
+            <button type="submit">Update</button>
+        </div>
+    </form>
+</section>
+
+<script>
+    const form = document.getElementById('update-product-form');
+    const productId = [[${product.id}]];
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const title = document.getElementById('title').value.trim();
+        const vendor = document.getElementById('vendor').value.trim();
+
+        if (!title || !vendor) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/products/update/${productId}`, {
+                method: 'POST', // ensure backend accepts JSON
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, vendor })
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(errText || 'Failed to update product');
+            }
+
+            const updatedProduct = await response.json();
+            alert(`Product updated successfully: ${updatedProduct.title}`);
+            window.location.href = '/products/home'; // redirect to products page
+
+        } catch (err) {
+            console.error(err);
+            alert(`Error: ${err.message}`);
+        }
+    });
+</script>
+
+</body>
+</html>

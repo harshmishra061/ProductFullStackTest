@@ -1,0 +1,9 @@
+<tr th:each="product : ${products}" th:attr="data-id=${product.id}">
+    <td class="border-b border-gray-300 py-2" th:text="${product.title}">Product Title</td>
+    <td class="border-b border-gray-300 py-2" th:text="${product.vendor}">Product Vendor</td>
+    <td class="border-b border-gray-300 py-2" th:text="${product.publishedAt}">Product Published At</td>
+    <td class="border-b border-gray-300 py-2 action-cell">
+        <a th:href="@{'/products/update/' + ${product.id}}" class="action-btn update-btn">Update</a>
+        <button class="action-btn delete-btn" th:onclick="'confirmDelete(' + ${product.id} + ', this)'">Delete</button>
+    </td>
+</tr>

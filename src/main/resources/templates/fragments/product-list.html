@@ -1,8 +1,0 @@
-<div th:fragment="productList">
-    <div th:each="product : ${products}" class="product-card">
-        <img th:src="${product.imageUrl}" th:alt="${product.title}" width="200">
-        <h2 th:text="${product.title}"></h2>
-        <p th:text="${product.description}"></p>
-        <p th:text="${product.price}"></p>
-    </div>
-</div>
